@@ -27,9 +27,9 @@ from modules.manifest import get_modules
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# env_file = os.path.join(BASE_DIR, ".env")
+env_file = os.path.join(BASE_DIR, ".env")
 env = environ.Env()
-# env.read_env(env_file)
+env.read_env(env_file)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG", default=False)
@@ -53,7 +53,7 @@ except (DefaultCredentialsError, PermissionDenied):
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str("SECRET_KEY")
 
-# ALLOWED_HOSTS = env.list("HOST", default=["*"])
+ALLOWED_HOSTS = env.list("HOST", default=["*"])
 SITE_ID = 1
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
@@ -97,8 +97,7 @@ THIRD_PARTY_APPS = [
 ]
 MODULES_APPS = get_modules()
 
-INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
-# + MODULES_APPS
+INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS + MODULES_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -144,10 +143,10 @@ DATABASES = {
     }
 }
 
-# if env.str("DATABASE_URL", default=None):
-#     DATABASES = {
-#         'default': env.db()
-#     }
+if env.str("DATABASE_URL", default=None):
+    DATABASES = {
+        'default': env.db()
+     }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
